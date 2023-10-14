@@ -40,6 +40,7 @@ namespace ui
         private GameObject GetPrefab(Cell cell, Position position, Rectangle boardSize, GameObject gameObjectAttached)
         {
             var prefab = GetPrefab(cell);
+            prefab.SetActive(true);
             var prefabPosition = CellPositionCalculator.From(position, boardSize);
             prefab.transform.position = prefabPosition;
             prefab.transform.parent = gameObjectAttached.transform;

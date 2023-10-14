@@ -25,33 +25,25 @@ public class MazeUI : MonoBehaviour
     private void Start()
     {
         _prefabs = new Prefabs(corridorSquare, wallSquare, foodSquare, pacman, InstantiateObject, DestroyObject);
+        corridorSquare.SetActive(false);
+        wallSquare.SetActive(false);
+        foodSquare.SetActive(false);
+        pacman.SetActive(false);
+        InvokeRepeating(nameof(MovePacman), 0, 0.2f);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space)) GenerateGame();
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            _drawer?.SetDirection(Direction.LEFT);
-            _drawer?.Move(gameObject);
-        }
+        if (Input.GetKeyDown(KeyCode.A)) _drawer?.SetDirection(Direction.LEFT);
+        if (Input.GetKeyDown(KeyCode.S)) _drawer?.SetDirection(Direction.DOWN);
+        if (Input.GetKeyDown(KeyCode.D)) _drawer?.SetDirection(Direction.RIGHT);
+        if (Input.GetKeyDown(KeyCode.W)) _drawer?.SetDirection(Direction.UP);
+    }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            _drawer?.SetDirection(Direction.DOWN);
-            _drawer?.Move(gameObject);
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            _drawer?.SetDirection(Direction.RIGHT);
-            _drawer?.Move(gameObject);
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            _drawer?.SetDirection(Direction.UP);
-            _drawer?.Move(gameObject);
-        }
+    private void MovePacman()
+    {
+        _drawer?.Move(gameObject);
         if (_drawer != null && _drawer.HasFinished())
             GenerateGame();
     }

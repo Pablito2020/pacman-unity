@@ -18,6 +18,7 @@ namespace ui.pacman
         public void Draw(Position position, GameObject gameObject)
         {
             pacman = GetPrefab(position, gameObject);
+            pacman.SetActive(true);
         }
 
         private GameObject GetPrefab(Position position, GameObject gameObjectAttached)
