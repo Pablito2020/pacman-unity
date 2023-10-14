@@ -5,14 +5,13 @@ using UnityEngine;
 
 public class MazeUI : MonoBehaviour
 {
-    private const int MAX_AGENTS = 4;
-    private const int MAX_STEPS_AGENT = 300;
-    private const int ROWS = 100;
-    private const int COLUMNS = 100;
-    private const int INITIAL_DONUT_WIDTH = 7;
-    private const int INITIAL_DONUT_HEIGHT = 7;
-    private const float WALK_THRESHOLD = 0.5f;
-    private static readonly Donut DEFAULT_DONUT_SIZE = new(INITIAL_DONUT_WIDTH, INITIAL_DONUT_HEIGHT);
+    [SerializeField] int MAX_AGENTS = 4;
+    [SerializeField] public int MAX_STEPS_AGENT = 300;
+    [SerializeField] public int ROWS = 10;
+    [SerializeField] public int COLUMNS = 10;
+    [SerializeField] public int INITIAL_DONUT_WIDTH = 3;
+    [SerializeField] public int INITIAL_DONUT_HEIGHT = 3;
+    [SerializeField] public float WALK_THRESHOLD = 0.5f;
     [SerializeField] public GameObject corridorSquare;
     [SerializeField] public GameObject wallSquare;
     private MazeDrawer drawer;
@@ -34,10 +33,11 @@ public class MazeUI : MonoBehaviour
         drawer.Draw(maze, gameObject);
     }
 
-    private static Maze GetRandomMaze()
+    private Maze GetRandomMaze()
     {
         var maze = new Maze(ROWS, COLUMNS);
-        var initialPositions = Cycle.Apply(DEFAULT_DONUT_SIZE, maze);
+        var initialDonut = new Donut(INITIAL_DONUT_WIDTH, INITIAL_DONUT_HEIGHT);
+        var initialPositions = Cycle.Apply(initialDonut, maze);
         var agents = new Agents(MAX_AGENTS, MAX_STEPS_AGENT, WALK_THRESHOLD);
         agents.Walk(maze, initialPositions);
         return maze;
