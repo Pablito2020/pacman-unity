@@ -75,5 +75,20 @@ namespace board
         {
             return size;
         }
+        
+        public Board DeepCopy()
+        {
+            var newBoard = new Board(maze.Count, maze[0].Count);
+            for (var i = 0; i < maze.Count; i++)
+            for (var j = 0; j < maze[0].Count; j++)
+                newBoard.Set(new Position(i, j), maze[i][j]);
+            return newBoard;
+        }
+        
+        public Rectangle GetRectangleOfBoard()
+        {
+            return new Rectangle(GetColumns(), GetRows());
+        }
+        
     }
 }

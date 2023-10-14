@@ -9,20 +9,20 @@ namespace ui
     public class BoardDrawer
     {
         private readonly List<List<GameObject>> cells = new();
-        private readonly Maze maze;
+        private readonly Board board;
         private readonly Prefabs prefabs;
         
-        public BoardDrawer(Prefabs prefabs, Maze maze)
+        public BoardDrawer(Prefabs prefabs, Board board)
         {
             this.prefabs = prefabs;
-            this.maze = maze;
+            this.board = board;
         }
 
         public void Draw(GameObject gameObject)
         {
-            var board = maze.GetBoard();
-            var boardSize = maze.GetRectangleOfBoard();
-            foreach (var (rowOfCells, rowIndex) in board.Select((value, i) => (value, i)))
+            var boardSize = this.board.GetRectangleOfBoard();
+            var boardPrimitives = this.board.GetCells();
+            foreach (var (rowOfCells, rowIndex) in boardPrimitives.Select((value, i) => (value, i)))
             {
                 var row = new List<GameObject>();
                 foreach (var (cell, columnIndex) in rowOfCells.Select((value, i) => (value, i)))
@@ -51,6 +51,7 @@ namespace ui
             {
                 Cell.PATH => prefabs.Instantiate(prefabs.Corridor),
                 Cell.WALL => prefabs.Instantiate(prefabs.Wall),
+                Cell.FOOD => prefabs.Instantiate(prefabs.Food),
                 _ => throw new ArgumentOutOfRangeException(nameof(cell), cell, null)
             };
         }
@@ -59,6 +60,13 @@ namespace ui
         {
             cells.ForEach(row => row.ForEach(prefabs.Destroy));
             cells.Clear();
+        }
+
+        public void Set(Position position, Cell type)
+        {
+            var cell = cells[position.Row][position.Column];
+            prefabs.Destroy(cell);
+            cells[position.Row][position.Column] = GetPrefab(type, position, board.GetRectangleOfBoard(), cell.transform.parent.gameObject);
         }
     }
 }

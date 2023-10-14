@@ -49,16 +49,6 @@ namespace board
             return board.Get(position) == Cell.PATH;
         }
 
-        public List<List<Cell>> GetBoard()
-        {
-            return board.GetCells();
-        }
-
-        public Rectangle GetRectangleOfBoard()
-        {
-            return new Rectangle(board.GetColumns(), board.GetRows());
-        }
-
         public bool WalkedIsBelowThreshold(float threshold)
         {
             var pathCells = board.GetAllCells().Count(cell => cell == Cell.PATH);

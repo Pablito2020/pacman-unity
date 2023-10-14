@@ -16,25 +16,49 @@ public class MazeUI : MonoBehaviour
 
     [SerializeField] public GameObject corridorSquare;
     [SerializeField] public GameObject wallSquare;
+    [SerializeField] public GameObject foodSquare;
+    [SerializeField] public GameObject pacman;
 
-    [CanBeNull] private MazeDrawer _drawer;
+    [CanBeNull] private GameDrawer _drawer;
     private Prefabs _prefabs;
 
     private void Start()
     {
-        _prefabs = new Prefabs(corridorSquare, wallSquare, InstantiateObject, DestroyObject);
+        _prefabs = new Prefabs(corridorSquare, wallSquare, foodSquare, pacman, InstantiateObject, DestroyObject);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) PrintMaze();
+        if (Input.GetKeyDown(KeyCode.Space)) GenerateGame();
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _drawer?.SetDirection(Direction.LEFT);
+            _drawer?.Move(gameObject);
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            _drawer?.SetDirection(Direction.DOWN);
+            _drawer?.Move(gameObject);
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            _drawer?.SetDirection(Direction.RIGHT);
+            _drawer?.Move(gameObject);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            _drawer?.SetDirection(Direction.UP);
+            _drawer?.Move(gameObject);
+        }
     }
 
-    private void PrintMaze()
+    private void GenerateGame()
     {
         _drawer?.Destroy();
         var maze = GetRandomMaze();
-        _drawer = new MazeDrawer(_prefabs, maze);
+        _drawer = new GameDrawer(_prefabs, maze);
         _drawer.Draw(gameObject);
     }
 
