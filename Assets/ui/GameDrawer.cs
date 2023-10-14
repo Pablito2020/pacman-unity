@@ -29,6 +29,7 @@ namespace ui
         public void Draw(GameObject gameObject)
         {
             _boardDrawer.Draw(gameObject);
+            _pacmanDrawer.Draw(_game.GetPacmanPosition(), gameObject);
         }
         
         public bool HasFinished()
