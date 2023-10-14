@@ -1,24 +1,28 @@
 using agent;
 using board;
+using JetBrains.Annotations;
 using ui;
 using UnityEngine;
 
 public class MazeUI : MonoBehaviour
 {
-    [SerializeField] int MAX_AGENTS = 4;
+    [SerializeField] private int MAX_AGENTS = 4;
     [SerializeField] public int MAX_STEPS_AGENT = 300;
     [SerializeField] public int ROWS = 10;
     [SerializeField] public int COLUMNS = 10;
     [SerializeField] public int INITIAL_DONUT_WIDTH = 3;
     [SerializeField] public int INITIAL_DONUT_HEIGHT = 3;
     [SerializeField] public float WALK_THRESHOLD = 0.5f;
+
     [SerializeField] public GameObject corridorSquare;
     [SerializeField] public GameObject wallSquare;
-    private MazeDrawer drawer;
+
+    [CanBeNull] private MazeDrawer _drawer;
+    private Prefabs _prefabs;
 
     private void Start()
     {
-        drawer = new MazeDrawer(InstantiateObject, DestroyObject, corridorSquare, wallSquare);
+        _prefabs = new Prefabs(corridorSquare, wallSquare, InstantiateObject, DestroyObject);
     }
 
     private void Update()
@@ -28,9 +32,10 @@ public class MazeUI : MonoBehaviour
 
     private void PrintMaze()
     {
-        drawer.Destroy();
+        _drawer?.Destroy();
         var maze = GetRandomMaze();
-        drawer.Draw(maze, gameObject);
+        _drawer = new MazeDrawer(_prefabs, maze);
+        _drawer.Draw(gameObject);
     }
 
     private Maze GetRandomMaze()
