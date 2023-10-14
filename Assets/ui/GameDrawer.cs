@@ -31,9 +31,9 @@ namespace ui
             _boardDrawer.Draw(gameObject);
         }
         
-        public void HasFinished()
+        public bool HasFinished()
         {
-            _game.HasFinished();
+            return _game.HasFinished();
         }
         
         public void Move(GameObject gameObject)

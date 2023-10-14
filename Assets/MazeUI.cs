@@ -52,6 +52,8 @@ public class MazeUI : MonoBehaviour
             _drawer?.SetDirection(Direction.UP);
             _drawer?.Move(gameObject);
         }
+        if (_drawer != null && _drawer.HasFinished())
+            GenerateGame();
     }
 
     private void GenerateGame()
