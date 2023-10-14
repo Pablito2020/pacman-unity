@@ -41,5 +41,10 @@ namespace game
         {
             return _state.GetPacmanPosition();
         }
+
+        public Board GetBoard()
+        {
+            return _state.GetBoard();
+        }
     }
 }

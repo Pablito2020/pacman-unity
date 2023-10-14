@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using board;
+using game;
 using UnityEngine;
 
 namespace ui
@@ -12,10 +13,10 @@ namespace ui
         private readonly Board board;
         private readonly Prefabs prefabs;
         
-        public BoardDrawer(Prefabs prefabs, Board board)
+        public BoardDrawer(Prefabs prefabs, Game game)
         {
             this.prefabs = prefabs;
-            this.board = board;
+            this.board = game.GetBoard();
         }
 
         public void Draw(GameObject gameObject)

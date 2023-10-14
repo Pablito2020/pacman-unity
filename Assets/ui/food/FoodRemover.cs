@@ -1,3 +1,4 @@
+using System;
 using board;
 using game.food;
 
@@ -5,16 +6,16 @@ namespace ui.food
 {
     public class FoodRemover : IFoodSubscriber
     {
-        private readonly BoardDrawer _boardDrawer;
+        private readonly Action<Position, Cell> _setCell;
 
-        public FoodRemover(BoardDrawer boardDrawer)
+        public FoodRemover(Action<Position, Cell> setCell)
         {
-            _boardDrawer = boardDrawer;
+            this._setCell = setCell;
         }
 
         public void EatFoodOn(Position position)
         {
-            _boardDrawer.Set(position, Cell.PATH);
+            this._setCell(position, Cell.PATH);
         }
     }
 }

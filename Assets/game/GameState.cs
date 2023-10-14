@@ -44,5 +44,11 @@ namespace game
         {
             return _pacmanPosition;
         }
+
+        public Board GetBoard()
+        {
+            return this._board.GetBoard();
+        }
+        
     }
 }

@@ -14,11 +14,10 @@ namespace ui
 
         public GameDrawer(Prefabs prefabs, Maze maze)
         {
-            var board = maze.board;
-            _boardDrawer = new BoardDrawer(prefabs, board);
-            _pacmanDrawer = new PacmanDrawer(prefabs, board.GetRectangleOfBoard());
-            var emitter = new FoodRemover(_boardDrawer);
-            _game = new Game(board, emitter);
+            var emitter = new FoodRemover((position, cell) => _boardDrawer?.Set(position, cell));
+            _game = new Game(maze.board, emitter);
+            _boardDrawer = new BoardDrawer(prefabs, _game);
+            _pacmanDrawer = new PacmanDrawer(prefabs, maze.board.GetRectangleOfBoard());
         }
 
         public void Destroy()
