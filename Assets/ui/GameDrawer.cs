@@ -51,6 +51,10 @@ namespace ui
         {
             Debug.Log("Eaten fruit");
         }
-        
+
+        public void EatenBigFruit()
+        {
+            Debug.Log("Big Eaten fruit!!");
+        }
     }
 }

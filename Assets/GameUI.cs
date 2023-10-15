@@ -18,6 +18,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] public GameObject corridorSquare;
     [SerializeField] public GameObject wallSquare;
     [SerializeField] public GameObject foodSquare;
+    [SerializeField] public GameObject bigFood;
     [SerializeField] public GameObject pacman;
     [SerializeField] public float speed = 3.00f; // In units per second
 
@@ -29,11 +30,13 @@ public class GameUI : MonoBehaviour
     private void Start()
     {
         var pacmanControl = pacman.GetComponent<PacmanControl>();
-        _prefabs = new Prefabs(corridorSquare, wallSquare, foodSquare, pacmanControl, InstantiateObject, DestroyObject);
+        _prefabs = new Prefabs(corridorSquare, wallSquare, foodSquare, bigFood, pacmanControl, InstantiateObject, DestroyObject);
         corridorSquare.SetActive(false);
         wallSquare.SetActive(false);
         foodSquare.SetActive(false);
+        bigFood.SetActive(false);
         FruitEat.OnFruitEaten += () => { _game?.EatenFruit(); };
+        BigFruitEat.OnBigFruitEaten += () => { _game?.EatenBigFruit(); };
     }
 
     private void Update()

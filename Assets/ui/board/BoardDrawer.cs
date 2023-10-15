@@ -58,6 +58,7 @@ namespace ui
                 Cell.PATH => new CellUi(prefabs.Instantiate(prefabs.Corridor)),
                 Cell.WALL => new CellUi(prefabs.Instantiate(prefabs.Wall)),
                 Cell.FOOD => new CellUi(prefabs.Instantiate(prefabs.Corridor), prefabs.Instantiate(prefabs.Food)),
+                Cell.BIG_FOOD => new CellUi(prefabs.Instantiate(prefabs.Corridor), prefabs.Instantiate(prefabs.BigFood)),
                 _ => throw new ArgumentOutOfRangeException(nameof(cell), cell, null)
             };
         }

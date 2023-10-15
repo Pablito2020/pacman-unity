@@ -4,7 +4,8 @@ namespace board
     {
         WALL,
         PATH,
-        FOOD
+        FOOD,
+        BIG_FOOD
     }
     
     public static class CellExtensions

@@ -16,7 +16,8 @@ namespace game
         {
             var initialPosition = initializer.GetInitialPosition(board);
             var boardWithFood = GameBoardCreator.FillWithFood(board, initialPosition);
-            _state = new GameState(boardWithFood, initialPosition);
+            var boardWithFoodAndBigFood = GameBoardCreator.FillWithBigFoods(boardWithFood, initialPosition);
+            _state = new GameState(boardWithFoodAndBigFood, initialPosition);
             _currentDirection = initializer.GetInitialDirection(_state);
         }
 

@@ -114,5 +114,13 @@ namespace board
             }
             return new Board(board, rows, columns);
         }
+
+        public IEnumerable<Position> GetNeighbours(Position currentPosition)
+        {
+            return Enum.GetValues(typeof(Direction))
+                .Cast<Direction>()
+                .Select(currentPosition.ApplyDirection)
+                .Where(IsValid);
+        }
     }
 }
