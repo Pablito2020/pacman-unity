@@ -1,20 +1,17 @@
 using System;
 using board;
-using game.food;
 
 namespace game
 {
     public class GameState
     {
         private readonly GameBoard _board;
-        private readonly IFoodSubscriber _foodEventEmitter;
         private Position _pacmanPosition;
 
-        public GameState(Board board, Position pacmanPosition, IFoodSubscriber foodEventEmitter)
+        public GameState(Board board, Position pacmanPosition)
         {
-            this._board = new GameBoard(board);
-            this._pacmanPosition = pacmanPosition;
-            this._foodEventEmitter = foodEventEmitter;
+            _board = new GameBoard(board);
+            _pacmanPosition = pacmanPosition;
         }
 
         public bool CanApply(Direction direction)
@@ -32,7 +29,6 @@ namespace game
 
             if (!_board.HasFruit(_pacmanPosition)) return;
             _board.EatFruitOn(_pacmanPosition);
-            _foodEventEmitter.EatFoodOn(_pacmanPosition);
         }
 
         public bool HasFinished()
@@ -47,8 +43,7 @@ namespace game
 
         public Board GetBoard()
         {
-            return this._board.GetBoard();
+            return _board.GetBoard();
         }
-        
     }
 }

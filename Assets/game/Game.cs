@@ -1,5 +1,4 @@
 using board;
-using game.food;
 using game.initializers;
 
 namespace game
@@ -9,15 +8,15 @@ namespace game
         private readonly GameState _state;
         private Direction _currentDirection;
 
-        public Game(Board board, IFoodSubscriber foodEventEmitter) : this(board, new PacmanRandomInitializer(), foodEventEmitter)
+        public Game(Board board) : this(board, new PacmanRandomInitializer())
         {
         }
 
-        private Game(Board board, IPacmanInitializer initializer, IFoodSubscriber foodEventEmitter)
+        private Game(Board board, IPacmanInitializer initializer)
         {
             var initialPosition = initializer.GetInitialPosition(board);
             var boardWithFood = GameBoardCreator.FillWithFood(board, initialPosition);
-            _state = new GameState(boardWithFood, initialPosition, foodEventEmitter);
+            _state = new GameState(boardWithFood, initialPosition);
             _currentDirection = initializer.GetInitialDirection(_state);
         }
 

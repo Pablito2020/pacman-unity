@@ -1,6 +1,5 @@
 using board;
 using game;
-using ui.food;
 using ui.pacman;
 using UnityEngine;
 
@@ -14,8 +13,7 @@ namespace ui
 
         public GameDrawer(Prefabs prefabs, Maze maze)
         {
-            var emitter = new FoodRemover();
-            _game = new Game(maze.board, emitter);
+            _game = new Game(maze.board);
             _board = new BoardDrawer(prefabs, _game);
             _pacman = new PacmanDrawer(prefabs, maze.board.GetRectangleOfBoard());
         }
@@ -47,7 +45,12 @@ namespace ui
         {
             _game.SetDirection(direction);
         }
-        
+
+
+        public void EatenFruit()
+        {
+            Debug.Log("Eaten fruit");
+        }
         
     }
 }

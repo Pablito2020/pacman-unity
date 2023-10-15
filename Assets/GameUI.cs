@@ -33,6 +33,7 @@ public class GameUI : MonoBehaviour
         corridorSquare.SetActive(false);
         wallSquare.SetActive(false);
         foodSquare.SetActive(false);
+        FruitEat.OnFruitEaten += () => { _game?.EatenFruit(); };
     }
 
     private void Update()
