@@ -18,7 +18,6 @@ namespace ui
         public void EatFruit()
         {
             if (fruit == null) return;
-            fruit = null;
         }
 
         public void Apply(Action<GameObject> operation)

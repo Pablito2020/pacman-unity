@@ -68,10 +68,5 @@ namespace ui
             cells.Clear();
         }
 
-        public void EatFruit(Position position)
-        {
-            var cell = cells[position.Row][position.Column];
-            cell.EatFruit();
-        }
     }
 }

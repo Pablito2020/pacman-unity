@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using ui;
 using UnityEngine;
 
-public class MazeUI : MonoBehaviour
+public class GameUI : MonoBehaviour
 {
     [SerializeField] private int MAX_AGENTS = 4;
     [SerializeField] public int MAX_STEPS_AGENT = 300;
@@ -37,17 +37,15 @@ public class MazeUI : MonoBehaviour
 
     private void Update()
     {
-        deltaTimeSum += Time.deltaTime;
-        if (deltaTimeSum >= 1 / speed)
-        {
-            deltaTimeSum = 0;
-            MovePacman();
-        }
         if (Input.GetKeyDown(KeyCode.Space)) GenerateGame();
         if (Input.GetKeyDown(KeyCode.A)) _game?.SetDirection(Direction.LEFT);
         if (Input.GetKeyDown(KeyCode.S)) _game?.SetDirection(Direction.DOWN);
         if (Input.GetKeyDown(KeyCode.D)) _game?.SetDirection(Direction.RIGHT);
         if (Input.GetKeyDown(KeyCode.W)) _game?.SetDirection(Direction.UP);
+        deltaTimeSum += Time.deltaTime;
+        if (!(deltaTimeSum >= (1 / speed))) return;
+        deltaTimeSum = 0;
+        MovePacman();
     }
 
     private void MovePacman()

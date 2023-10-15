@@ -24,5 +24,10 @@ namespace ui.pacman
             _prefabs.Pacman.InitPacman(CellPositionCalculator.From(position, _boardSize), direction, speed);
         }
 
+        public void DestroyPacman()
+        {
+            _prefabs.Pacman.Destroy();
+        }
+
     }
 }

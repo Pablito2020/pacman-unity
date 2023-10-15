@@ -14,7 +14,7 @@ namespace ui
 
         public GameDrawer(Prefabs prefabs, Maze maze)
         {
-            var emitter = new FoodRemover((position => _board.EatFruit(position)));
+            var emitter = new FoodRemover();
             _game = new Game(maze.board, emitter);
             _board = new BoardDrawer(prefabs, _game);
             _pacman = new PacmanDrawer(prefabs, maze.board.GetRectangleOfBoard());
@@ -23,12 +23,13 @@ namespace ui
         public void Destroy()
         {
             _board.Destroy();
+            _pacman.DestroyPacman();
         }
 
         public void StartNewGame(GameObject gameObject, float speed)
         {
-            _board.Draw(gameObject);
             _pacman.InitPacman(_game.GetPacmanPosition(), _game.GetCurrentDirection(), speed);
+            _board.Draw(gameObject);
         }
         
         public bool HasFinished()

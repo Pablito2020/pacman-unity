@@ -82,4 +82,11 @@ public class PacmanControl : MonoBehaviour
             _ => throw new ArgumentException("Invalid direction")
         };
     }
+
+    public void Destroy()
+    {
+        this._targetAngle = 0;
+        this._positionToGo = null;
+        this._speed = 0;
+    }
 }
