@@ -25,10 +25,10 @@ namespace ui
             _board.Destroy();
         }
 
-        public void StartNewGame(GameObject gameObject)
+        public void StartNewGame(GameObject gameObject, float speed)
         {
             _board.Draw(gameObject);
-            _pacman.InitPacman(_game.GetPacmanPosition(), _game.GetCurrentDirection());
+            _pacman.InitPacman(_game.GetPacmanPosition(), _game.GetCurrentDirection(), speed);
         }
         
         public bool HasFinished()

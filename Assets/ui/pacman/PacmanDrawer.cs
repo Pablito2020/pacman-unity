@@ -19,9 +19,9 @@ namespace ui.pacman
             _prefabs.Pacman.GoTo(pos, direction);
         }
 
-        public void InitPacman(Position position, Direction direction)
+        public void InitPacman(Position position, Direction direction, float speed)
         {
-            _prefabs.Pacman.InitPacman(CellPositionCalculator.From(position, _boardSize), direction);
+            _prefabs.Pacman.InitPacman(CellPositionCalculator.From(position, _boardSize), direction, speed);
         }
 
     }

@@ -19,9 +19,12 @@ public class MazeUI : MonoBehaviour
     [SerializeField] public GameObject wallSquare;
     [SerializeField] public GameObject foodSquare;
     [SerializeField] public GameObject pacman;
+    [SerializeField] public float speed = 3.00f; // In units per second
 
     [CanBeNull] private GameDrawer _game;
     private Prefabs _prefabs;
+
+    private float deltaTimeSum = 0;
 
     private void Start()
     {
@@ -30,11 +33,17 @@ public class MazeUI : MonoBehaviour
         corridorSquare.SetActive(false);
         wallSquare.SetActive(false);
         foodSquare.SetActive(false);
-        InvokeRepeating(nameof(MovePacman), 0, 0.33f);
+        // InvokeRepeating(nameof(MovePacman), 0, 0.33f);
     }
 
     private void Update()
     {
+        deltaTimeSum += Time.deltaTime;
+        if (deltaTimeSum >= 1 / speed)
+        {
+            deltaTimeSum = 0;
+            MovePacman();
+        }
         if (Input.GetKeyDown(KeyCode.Space)) GenerateGame();
         if (Input.GetKeyDown(KeyCode.A)) _game?.SetDirection(Direction.LEFT);
         if (Input.GetKeyDown(KeyCode.S)) _game?.SetDirection(Direction.DOWN);
@@ -54,7 +63,7 @@ public class MazeUI : MonoBehaviour
         _game?.Destroy();
         var maze = GetRandomMaze();
         _game = new GameDrawer(_prefabs, maze);
-        _game.StartNewGame(gameObject);
+        _game.StartNewGame(gameObject, speed);
     }
 
     private Maze GetRandomMaze()
