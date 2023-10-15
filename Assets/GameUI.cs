@@ -1,4 +1,3 @@
-using System;
 using agent;
 using board;
 using JetBrains.Annotations;
@@ -21,16 +20,25 @@ public class GameUI : MonoBehaviour
     [SerializeField] public GameObject bigFood;
     [SerializeField] public GameObject pacman;
     [SerializeField] public float speed = 3.00f; // In units per second
+    
+    
+    public delegate void OnGameFinished();
+    public static event OnGameFinished OnGameFinishedEvent;
+    
+    public delegate void OnMazeCreated(int rows, int columns);
+    public static event OnMazeCreated OnMazeCreatedEvent;
 
     [CanBeNull] private GameDrawer _game;
     private Prefabs _prefabs;
 
-    private float deltaTimeSum = 0;
+    private float deltaTimeSum;
 
     private void Start()
     {
+        OnMazeCreatedEvent?.Invoke(ROWS, COLUMNS);
         var pacmanControl = pacman.GetComponent<PacmanControl>();
-        _prefabs = new Prefabs(corridorSquare, wallSquare, foodSquare, bigFood, pacmanControl, InstantiateObject, DestroyObject);
+        _prefabs = new Prefabs(corridorSquare, wallSquare, foodSquare, bigFood, pacmanControl, InstantiateObject,
+            DestroyObject);
         corridorSquare.SetActive(false);
         wallSquare.SetActive(false);
         foodSquare.SetActive(false);
@@ -47,7 +55,7 @@ public class GameUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D)) _game?.SetDirection(Direction.RIGHT);
         if (Input.GetKeyDown(KeyCode.W)) _game?.SetDirection(Direction.UP);
         deltaTimeSum += Time.deltaTime;
-        if (!(deltaTimeSum >= (1 / speed))) return;
+        if (!(deltaTimeSum >= 1 / speed)) return;
         deltaTimeSum = 0;
         MovePacman();
     }
@@ -56,7 +64,10 @@ public class GameUI : MonoBehaviour
     {
         _game?.Move();
         if (_game != null && _game.HasFinished())
-            _game?.Destroy();
+        {
+            _game?.Destroy(); 
+            OnGameFinishedEvent?.Invoke();
+        }
     }
 
     private void GenerateGame()
@@ -70,7 +81,7 @@ public class GameUI : MonoBehaviour
 
     private Maze GetRandomMaze()
     {
-        var maze = new Maze(ROWS -2 , COLUMNS - 2);
+        var maze = new Maze(ROWS - 2, COLUMNS - 2);
         var initialDonut = new Donut(INITIAL_DONUT_WIDTH, INITIAL_DONUT_HEIGHT);
         var initialPositions = Cycle.Apply(initialDonut, maze);
         var agents = new Agents(MAX_AGENTS, MAX_STEPS_AGENT, WALK_THRESHOLD);
