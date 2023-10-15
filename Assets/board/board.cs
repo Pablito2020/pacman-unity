@@ -16,6 +16,12 @@ namespace board
             PopulateMaze(rows, columns);
         }
 
+        private Board(List<List<Cell>> maze, int rows, int columns)
+        {
+            this.maze = maze;
+            this.size = rows * columns;
+        }
+
         private void PopulateMaze(int rows, int columns)
         {
             for (var i = 0; i < rows; i++)
@@ -89,6 +95,24 @@ namespace board
         {
             return new Rectangle(GetColumns(), GetRows());
         }
-        
+
+        public Board Resize(int rows, int columns)
+        {
+            var board = new List<List<Cell>>();
+            for (var i = 0; i < rows; i++)
+                board.Add(Enumerable.Repeat(Cell.WALL, columns).ToList());
+            
+            var numberOfNewRows = rows - GetRows();
+            var numberOfNewColumns = columns - GetColumns();
+            
+            for (var row = 0; row < GetRows(); row++)
+            {
+                for ( var column = 0; column < GetColumns(); column++)
+                {
+                    board[row + (numberOfNewRows / 2)][column + (numberOfNewColumns / 2)] = maze[row][column];
+                }
+            }
+            return new Board(board, rows, columns);
+        }
     }
 }

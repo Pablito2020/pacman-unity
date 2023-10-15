@@ -67,12 +67,12 @@ public class GameUI : MonoBehaviour
 
     private Maze GetRandomMaze()
     {
-        var maze = new Maze(ROWS, COLUMNS);
+        var maze = new Maze(ROWS -2 , COLUMNS - 2);
         var initialDonut = new Donut(INITIAL_DONUT_WIDTH, INITIAL_DONUT_HEIGHT);
         var initialPositions = Cycle.Apply(initialDonut, maze);
         var agents = new Agents(MAX_AGENTS, MAX_STEPS_AGENT, WALK_THRESHOLD);
         agents.Walk(maze, initialPositions);
-        return maze;
+        return maze.Resize(ROWS, COLUMNS);
     }
 
 

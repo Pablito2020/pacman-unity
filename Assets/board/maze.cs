@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace board
 {
@@ -11,6 +12,11 @@ namespace board
         public Maze(int rows, int columns)
         {
             board = new Board(rows, columns);
+        }
+
+        private Maze(Board b)
+        {
+            board = b;
         }
 
         public HashSet<Direction> GetDirectionsFrom(Position position)
@@ -54,6 +60,13 @@ namespace board
             var pathCells = board.GetAllCells().Count(cell => cell == Cell.PATH);
             var allCells = board.GetSize();
             return (float)pathCells / allCells < threshold;
+        }
+
+        public Maze Resize(int rows, int columns)
+        {
+            if (rows < board.GetRows() || columns < board.GetColumns())
+                throw new ArgumentException("The new size should be bigger than the current one");
+            return new Maze(board.Resize(rows, columns));
         }
     }
 }
