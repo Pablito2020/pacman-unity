@@ -14,7 +14,7 @@ namespace ui
 
         public GameDrawer(Prefabs prefabs, Maze maze)
         {
-            var emitter = new FoodRemover((position, cell) => _board?.Set(position, cell));
+            var emitter = new FoodRemover((position => _board.EatFruit(position)));
             _game = new Game(maze.board, emitter);
             _board = new BoardDrawer(prefabs, _game);
             _pacman = new PacmanDrawer(prefabs, maze.board.GetRectangleOfBoard());

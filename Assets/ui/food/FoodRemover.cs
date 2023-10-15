@@ -6,16 +6,15 @@ namespace ui.food
 {
     public class FoodRemover : IFoodSubscriber
     {
-        private readonly Action<Position, Cell> _setCell;
-
-        public FoodRemover(Action<Position, Cell> setCell)
+        Action<Position> Action;
+        public FoodRemover(Action<Position> action)
         {
-            this._setCell = setCell;
+            this.Action = action;
         }
 
         public void EatFoodOn(Position position)
         {
-            this._setCell(position, Cell.PATH);
+            this.Action(position);
         }
     }
 }

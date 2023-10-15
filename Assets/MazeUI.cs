@@ -33,7 +33,6 @@ public class MazeUI : MonoBehaviour
         corridorSquare.SetActive(false);
         wallSquare.SetActive(false);
         foodSquare.SetActive(false);
-        // InvokeRepeating(nameof(MovePacman), 0, 0.33f);
     }
 
     private void Update()
@@ -55,7 +54,7 @@ public class MazeUI : MonoBehaviour
     {
         _game?.Move();
         if (_game != null && _game.HasFinished())
-            GenerateGame();
+            _game?.Destroy();
     }
 
     private void GenerateGame()
@@ -64,6 +63,7 @@ public class MazeUI : MonoBehaviour
         var maze = GetRandomMaze();
         _game = new GameDrawer(_prefabs, maze);
         _game.StartNewGame(gameObject, speed);
+        deltaTimeSum = 0;
     }
 
     private Maze GetRandomMaze()
