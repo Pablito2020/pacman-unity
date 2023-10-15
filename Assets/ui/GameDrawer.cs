@@ -8,28 +8,27 @@ namespace ui
 {
     public class GameDrawer
     {
-        private readonly BoardDrawer _boardDrawer;
-        private readonly PacmanDrawer _pacmanDrawer;
+        private readonly BoardDrawer _board;
+        private readonly PacmanDrawer _pacman;
         private readonly Game _game;
 
         public GameDrawer(Prefabs prefabs, Maze maze)
         {
-            var emitter = new FoodRemover((position, cell) => _boardDrawer?.Set(position, cell));
+            var emitter = new FoodRemover((position, cell) => _board?.Set(position, cell));
             _game = new Game(maze.board, emitter);
-            _boardDrawer = new BoardDrawer(prefabs, _game);
-            _pacmanDrawer = new PacmanDrawer(prefabs, maze.board.GetRectangleOfBoard());
+            _board = new BoardDrawer(prefabs, _game);
+            _pacman = new PacmanDrawer(prefabs, maze.board.GetRectangleOfBoard());
         }
 
         public void Destroy()
         {
-            _boardDrawer.Destroy();
-            _pacmanDrawer.Destroy();
+            _board.Destroy();
         }
 
-        public void Draw(GameObject gameObject)
+        public void StartNewGame(GameObject gameObject)
         {
-            _boardDrawer.Draw(gameObject);
-            _pacmanDrawer.Draw(_game.GetPacmanPosition(), gameObject);
+            _board.Draw(gameObject);
+            _pacman.InitPacman(_game.GetPacmanPosition(), _game.GetCurrentDirection());
         }
         
         public bool HasFinished()
@@ -37,11 +36,10 @@ namespace ui
             return _game.HasFinished();
         }
         
-        public void Move(GameObject gameObject)
+        public void Move()
         {
-            _pacmanDrawer.Destroy();
-            _game.Move();
-            _pacmanDrawer.Draw(_game.GetPacmanPosition(), gameObject);
+            if (_game.Move())
+                _pacman.GoTo(_game.GetPacmanPosition(), _game.GetCurrentDirection());
         }
         
         public void SetDirection(Direction direction)

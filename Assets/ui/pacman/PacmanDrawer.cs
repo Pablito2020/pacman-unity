@@ -1,5 +1,4 @@
 using board;
-using UnityEngine;
 
 namespace ui.pacman
 {
@@ -7,32 +6,23 @@ namespace ui.pacman
     {
         private readonly Rectangle _boardSize;
         private readonly Prefabs _prefabs;
-        private GameObject pacman;
 
         public PacmanDrawer(Prefabs prefabs, Rectangle boardSize)
         {
-            this._prefabs = prefabs;
-            this._boardSize = boardSize;
+            _prefabs = prefabs;
+            _boardSize = boardSize;
         }
 
-        public void Draw(Position position, GameObject gameObject)
+        public void GoTo(Position position, Direction direction)
         {
-            pacman = GetPrefab(position, gameObject);
-            pacman.SetActive(true);
+            var pos = CellPositionCalculator.From(position, _boardSize);
+            _prefabs.Pacman.GoTo(pos, direction);
         }
 
-        private GameObject GetPrefab(Position position, GameObject gameObjectAttached)
+        public void InitPacman(Position position, Direction direction)
         {
-            var prefab = _prefabs.Instantiate(_prefabs.Pacman);
-            var prefabPosition = CellPositionCalculator.From(position, _boardSize);
-            prefab.transform.position = prefabPosition;
-            prefab.transform.parent = gameObjectAttached.transform;
-            return prefab;
+            _prefabs.Pacman.InitPacman(CellPositionCalculator.From(position, _boardSize), direction);
         }
 
-        public void Destroy()
-        {
-            _prefabs.Destroy(pacman);
-        }
     }
 }

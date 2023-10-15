@@ -520,10 +520,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1404007100}
   - {fileID: 24103255}
   - {fileID: 536110735}
   - {fileID: 771879698}
-  - {fileID: 1404007100}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1404007097

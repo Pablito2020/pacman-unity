@@ -26,10 +26,11 @@ namespace game
             _currentDirection = direction;
         }
 
-        public void Move()
+        public bool Move()
         {
-            if (_state.CanApply(_currentDirection))
-                _state.Move(_currentDirection);
+            if (!_state.CanApply(_currentDirection)) return false;
+            _state.Move(_currentDirection);
+            return true;
         }
 
         public bool HasFinished()
@@ -45,6 +46,11 @@ namespace game
         public Board GetBoard()
         {
             return _state.GetBoard();
+        }
+        
+        public Direction GetCurrentDirection()
+        {
+            return _currentDirection;
         }
     }
 }

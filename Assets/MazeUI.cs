@@ -1,3 +1,4 @@
+using System;
 using agent;
 using board;
 using JetBrains.Annotations;
@@ -19,41 +20,41 @@ public class MazeUI : MonoBehaviour
     [SerializeField] public GameObject foodSquare;
     [SerializeField] public GameObject pacman;
 
-    [CanBeNull] private GameDrawer _drawer;
+    [CanBeNull] private GameDrawer _game;
     private Prefabs _prefabs;
 
     private void Start()
     {
-        _prefabs = new Prefabs(corridorSquare, wallSquare, foodSquare, pacman, InstantiateObject, DestroyObject);
+        var pacmanControl = pacman.GetComponent<PacmanControl>();
+        _prefabs = new Prefabs(corridorSquare, wallSquare, foodSquare, pacmanControl, InstantiateObject, DestroyObject);
         corridorSquare.SetActive(false);
         wallSquare.SetActive(false);
         foodSquare.SetActive(false);
-        pacman.SetActive(false);
-        InvokeRepeating(nameof(MovePacman), 0, 0.2f);
+        InvokeRepeating(nameof(MovePacman), 0, 0.33f);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space)) GenerateGame();
-        if (Input.GetKeyDown(KeyCode.A)) _drawer?.SetDirection(Direction.LEFT);
-        if (Input.GetKeyDown(KeyCode.S)) _drawer?.SetDirection(Direction.DOWN);
-        if (Input.GetKeyDown(KeyCode.D)) _drawer?.SetDirection(Direction.RIGHT);
-        if (Input.GetKeyDown(KeyCode.W)) _drawer?.SetDirection(Direction.UP);
+        if (Input.GetKeyDown(KeyCode.A)) _game?.SetDirection(Direction.LEFT);
+        if (Input.GetKeyDown(KeyCode.S)) _game?.SetDirection(Direction.DOWN);
+        if (Input.GetKeyDown(KeyCode.D)) _game?.SetDirection(Direction.RIGHT);
+        if (Input.GetKeyDown(KeyCode.W)) _game?.SetDirection(Direction.UP);
     }
 
     private void MovePacman()
     {
-        _drawer?.Move(gameObject);
-        if (_drawer != null && _drawer.HasFinished())
+        _game?.Move();
+        if (_game != null && _game.HasFinished())
             GenerateGame();
     }
 
     private void GenerateGame()
     {
-        _drawer?.Destroy();
+        _game?.Destroy();
         var maze = GetRandomMaze();
-        _drawer = new GameDrawer(_prefabs, maze);
-        _drawer.Draw(gameObject);
+        _game = new GameDrawer(_prefabs, maze);
+        _game.StartNewGame(gameObject);
     }
 
     private Maze GetRandomMaze()
