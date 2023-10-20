@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class GameUI : MonoBehaviour
 {
+    public delegate void OnGameFinished();
+
+    public delegate void OnMazeCreated(int rows, int columns);
+
     [SerializeField] private int MAX_AGENTS = 4;
     [SerializeField] public int MAX_STEPS_AGENT = 300;
     [SerializeField] public int ROWS = 10;
@@ -20,18 +24,13 @@ public class GameUI : MonoBehaviour
     [SerializeField] public GameObject bigFood;
     [SerializeField] public GameObject pacman;
     [SerializeField] public float speed = 3.00f; // In units per second
-    
-    
-    public delegate void OnGameFinished();
-    public static event OnGameFinished OnGameFinishedEvent;
-    
-    public delegate void OnMazeCreated(int rows, int columns);
-    public static event OnMazeCreated OnMazeCreatedEvent;
 
     [CanBeNull] private GameDrawer _game;
     private Prefabs _prefabs;
 
+    private int bigFoodEaten;
     private float deltaTimeSum;
+    private int foodEaten;
 
     private void Start()
     {
@@ -43,8 +42,16 @@ public class GameUI : MonoBehaviour
         wallSquare.SetActive(false);
         foodSquare.SetActive(false);
         bigFood.SetActive(false);
-        FruitEat.OnFruitEaten += () => { _game?.EatenFruit(); };
-        BigFruitEat.OnBigFruitEaten += () => { _game?.EatenBigFruit(); };
+        FruitEat.OnFruitEaten += () =>
+        {
+            _game?.EatenFruit();
+            foodEaten += 1;
+        };
+        BigFruitEat.OnBigFruitEaten += () =>
+        {
+            _game?.EatenBigFruit();
+            bigFoodEaten += 1;
+        };
     }
 
     private void Update()
@@ -60,13 +67,32 @@ public class GameUI : MonoBehaviour
         MovePacman();
     }
 
+    private void OnGUI()
+    {
+        var style = new GUIStyle
+        {
+            fontSize = 20
+        };
+        var x = Screen.width - (Screen.width * 5 / 6);
+        var y = Screen.height - (Screen.height * 5 / 6);
+        var position = new Vector2(x, y);
+        var size = new Vector2(200, 200);
+        var r = new Rect(position, size);
+        GUI.Label(r, "Food eaten: " + foodEaten, style);
+        var _y = Screen.height - (Screen.height * 1 / 6);
+        GUI.Label(new Rect(x, _y, 200, 200), "Big food eaten: " + bigFoodEaten, style);
+    }
+
+    public static event OnGameFinished OnGameFinishedEvent;
+    public static event OnMazeCreated OnMazeCreatedEvent;
+
     private void MovePacman()
     {
         _game?.Move();
         if (_game != null && _game.HasFinished())
         {
-            _game?.Destroy(); 
             OnGameFinishedEvent?.Invoke();
+            GenerateGame();
         }
     }
 
@@ -77,6 +103,8 @@ public class GameUI : MonoBehaviour
         _game = new GameDrawer(_prefabs, maze);
         _game.StartNewGame(gameObject, speed);
         deltaTimeSum = 0;
+        foodEaten = 0;
+        bigFoodEaten = 0;
     }
 
     private Maze GetRandomMaze()
