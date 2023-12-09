@@ -55,7 +55,6 @@ public class GameUI : MonoBehaviour
             _game?.EatenBigFruit();
             bigFoodEaten += 1;
         };
-        cam.orthographicSize = ROWS / 2.0f;
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -105,6 +104,7 @@ public class GameUI : MonoBehaviour
     {
         _audioSource.Stop();
         _game?.Destroy();
+        cam.orthographicSize = ROWS / 2.0f;
         var maze = GetRandomMaze();
         _game = new GameDrawer(_prefabs, maze);
         _game.StartNewGame(gameObject, speed);
