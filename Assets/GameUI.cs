@@ -23,6 +23,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] public GameObject foodSquare;
     [SerializeField] public GameObject bigFood;
     [SerializeField] public GameObject pacman;
+    [SerializeField] public Camera cam;
     [SerializeField] public float speed = 3.00f; // In units per second
 
     [CanBeNull] private GameDrawer _game;
@@ -52,6 +53,7 @@ public class GameUI : MonoBehaviour
             _game?.EatenBigFruit();
             bigFoodEaten += 1;
         };
+        cam.orthographicSize = ROWS / 2.0f;
     }
 
     private void Update()
@@ -73,13 +75,13 @@ public class GameUI : MonoBehaviour
         {
             fontSize = 20
         };
-        var x = Screen.width - (Screen.width * 5 / 6);
-        var y = Screen.height - (Screen.height * 5 / 6);
+        var x = Screen.width / 2;
+        var y = 0;
         var position = new Vector2(x, y);
         var size = new Vector2(200, 200);
         var r = new Rect(position, size);
         GUI.Label(r, "Food eaten: " + foodEaten, style);
-        var _y = Screen.height - (Screen.height * 1 / 6);
+        var _y = Screen.height / ROWS * (ROWS - 1) + Screen.height / ROWS / 2;
         GUI.Label(new Rect(x, _y, 200, 200), "Big food eaten: " + bigFoodEaten, style);
     }
 

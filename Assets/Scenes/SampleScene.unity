@@ -184,7 +184,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -209,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -412,18 +412,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad954d8bf19d2c44eb2898a3ad9a32c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_AGENTS: 6
+  MAX_AGENTS: 100
   MAX_STEPS_AGENT: 300
-  ROWS: 13
-  COLUMNS: 20
+  ROWS: 16
+  COLUMNS: 16
   INITIAL_DONUT_WIDTH: 3
   INITIAL_DONUT_HEIGHT: 3
-  WALK_THRESHOLD: 0.8
+  WALK_THRESHOLD: 0.6
   corridorSquare: {fileID: 771879696}
   wallSquare: {fileID: 536110733}
   foodSquare: {fileID: 1516872600}
   bigFood: {fileID: 1269529861}
   pacman: {fileID: 1404007097}
+  cam: {fileID: 519420031}
   speed: 3
 --- !u!4 &913653614
 Transform:
