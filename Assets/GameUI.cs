@@ -32,6 +32,8 @@ public class GameUI : MonoBehaviour
     private int bigFoodEaten;
     private float deltaTimeSum;
     private int foodEaten;
+    
+    private AudioSource _audioSource;
 
     private void Start()
     {
@@ -54,6 +56,7 @@ public class GameUI : MonoBehaviour
             bigFoodEaten += 1;
         };
         cam.orthographicSize = ROWS / 2.0f;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -100,6 +103,7 @@ public class GameUI : MonoBehaviour
 
     private void GenerateGame()
     {
+        _audioSource.Stop();
         _game?.Destroy();
         var maze = GetRandomMaze();
         _game = new GameDrawer(_prefabs, maze);
@@ -107,6 +111,7 @@ public class GameUI : MonoBehaviour
         deltaTimeSum = 0;
         foodEaten = 0;
         bigFoodEaten = 0;
+        _audioSource.Play();
     }
 
     private Maze GetRandomMaze()
